@@ -1,0 +1,49 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import ElementUI from 'element-ui'
+import axios from 'axios'
+import VueI18n from 'vue-i18n'
+import store from 'store'
+
+import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/base.css';
+import 'font-awesome/css/font-awesome.min.css'
+import 'common/stylus/index.styl'
+
+Vue.use(ElementUI)
+Vue.use(VueI18n)
+Vue.prototype.$axios = axios;
+Vue.config.productionTip = false
+
+const i18n = {
+  locale: 'zh-CN',    // 语言标识
+  //this.$i18n.locale // 通过切换locale的值来实现语言切换
+  messages: {
+    'zh-CN': require('./common/i18n/zh'),   // 中文语言包
+    'en-US': require('./common/i18n/en')    // 英文语言包
+  },
+  fallbackLocale: 'zh-CN' //找不到的时候中文优先
+}
+
+router.beforeEach((to, from, next) => {
+ /* let user = store.get('user');
+  if(!user || Object.keys(user).length === 0){
+    next('/');
+  }else{
+    next();
+  }*/
+ next();
+});
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  i18n,
+  template: '<App/>',
+  components: { App },
+  render: h => h(App)
+})
