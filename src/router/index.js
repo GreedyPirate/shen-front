@@ -6,7 +6,10 @@ import Profile from 'components/profile/profile'
 import Apply from 'components/apply/apply'
 import Upload from 'components/upload/upload'
 import Pay from 'components/pay/pay'
+import Task from 'components/task/task'
+import Finished from 'components/finished/finished'
 import Error from 'components/error/error'
+
 
 
 Vue.use(Router)
@@ -36,6 +39,18 @@ export default new Router({
           path: '/profile',
           name: 'Profile',
           component: Profile
+        },
+        {
+          path: '/task',
+          name: 'Task',
+          component: Task
+
+        },
+        {
+          path: '/finished',
+          name: 'Finished',
+          component: Finished
+
         },
         {
           path: '/apply',

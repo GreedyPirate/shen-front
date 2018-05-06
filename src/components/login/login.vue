@@ -153,8 +153,7 @@
           this.$refs.regist.validate((valid) => {
             if(valid){
               regist(Qs.stringify(self.regist)).then((res) => {
-                if(res.code == 0){
-//                  this.isLogin = true;
+                if(res.code == 200){
                   self.$router.push('/profile');
                 }else{
                   self.$message.error(res.msg);

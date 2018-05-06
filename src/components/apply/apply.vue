@@ -12,10 +12,10 @@
         <el-form-item labelWidth="120px" label="注册类型" prop="regType">
           <el-select v-model="ruleForm.regType" placeholder="请选择注册类型">
             <el-option
-              v-for="item in regTypes"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in archives.regType"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -101,10 +101,10 @@
             <el-form-item labelWidth="120px" label="企业类型" prop="enterpriseType">
               <el-select v-model="ruleForm.enterpriseType" placeholder="请选择企业类型">
                 <el-option
-                  v-for="item in enterpriseTypes"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in archives.enterpriseType"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -118,10 +118,10 @@
             <el-form-item label="货币种类" prop="currency">
               <el-select v-model="ruleForm.currency" placeholder="请选择货币种类">
                 <el-option
-                  v-for="item in currencies"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in archives.currency"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -137,10 +137,10 @@
             <el-form-item label="经济类型">
               <el-select v-model="ruleForm.economicType" placeholder="请选择经济类型">
                 <el-option
-                  v-for="item in economicTypes"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in archives.economicType"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -180,8 +180,7 @@
           </el-col>
           <el-col span="8">
             <el-form-item label="接收邮件提醒" prop="emailReceive">
-              <el-radio v-model="ruleForm.emailReceive" label="1">接收</el-radio>
-              <el-radio v-model="ruleForm.emailReceive" label="2">不接收</el-radio>
+              <el-radio v-model="ruleForm.emailReceive" v-for="item in archives.emailable" :key="item.id" :label="item.id">{{item.name}}</el-radio>
             </el-form-item>
           </el-col>
         </el-row>
@@ -329,6 +328,20 @@
           invoiceTitle: [{required: true, message: '请输入发票抬头', trigger: 'blur'}],
           taxNumber: [{required: true, Whitespace:false, message: '请输入纳税人识别号', trigger: 'blur'}],
         },
+        archives:{},
+
+
+
+
+
+
+
+
+
+
+
+
+
         regTypes: [
           {
             'label': '普通',
@@ -399,16 +412,24 @@
     created(){
       this.initData();
       this.ruleForm.contactTele = store.get('user').phoneNumber;
-      debugger
     },
     methods: {
       initData(){
         getArchive().then((res) => {
-
+          if(res.code === 200){
+            this.archives = this._normalizeArchive(res.data);
+            console.log(this.archives)
+          }
         })
       },
+      _normalizeArchive(data){
+        let obj = {};
+        data.forEach((item,index) => {
+          obj[item.code] = item.archiveDetails;
+        })
+        return obj;
+      },
       handleAdminareaChange(value) {
-        console.log(value[2])
         this.ruleForm.adminareaCode = value[2];
       },
       onSubmit() {
