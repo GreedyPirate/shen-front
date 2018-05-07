@@ -20,48 +20,48 @@
           </el-select>
         </el-form-item>
         <el-row :gutter="80">
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="企业名称(中文)" prop="enterpriseZh">
               <el-input v-model="ruleForm.enterpriseZh" placeholder="请输入企业名称" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="企业名称(英文)">
               <el-input v-model="ruleForm.enterpriseEn" placeholder="请输入企业名称" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="80">
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="注册地址(中文)" prop="registZh">
               <el-input v-model="ruleForm.registZh" placeholder="请输入注册地址" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="注册地址(英文)">
               <el-input v-model="ruleForm.registEn" placeholder="请输入注册地址" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="80">
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="注册地址邮编)" prop="registPostcode">
               <el-input v-model="ruleForm.registPostcode" placeholder="请输入注册地址邮编" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="办公邮政编码)" prop="workPostcode">
               <el-input v-model="ruleForm.workPostcode" placeholder="请输入办公邮政编码" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="80">
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="办公地址(中文)" prop="workplaceZh">
               <el-input v-model="ruleForm.workplaceZh" placeholder="请输入办公地址" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="办公地址(英文)">
               <el-input v-model="ruleForm.workplaceEn" placeholder="请输入办公地址" clearable></el-input>
             </el-form-item>
@@ -70,7 +70,7 @@
 
         <form-title name="行政区域信息"></form-title>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="行政区划选择" prop="adminarea">
               <el-cascader
                 :options="regionData"
@@ -79,25 +79,21 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="行政区域代码" prop="adminareaCode">
               <el-input v-model="ruleForm.adminareaCode" placeholder="请输入行政区域代码" disabled clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <!--<el-form-item label="所属分中心" prop="belongCenter">
-          <el-radio v-model="ruleForm.belongCenter" label="1">昌平分中心</el-radio>
-          <el-radio v-model="ruleForm.belongCenter" label="2">通州分中心</el-radio>
-        </el-form-item>-->
         <el-row :gutter="80">
-          <el-col span="12">
+          <el-col :span="12">
             <el-form-item label="营业执照注册号" prop="licenseCode">
               <el-input v-model="ruleForm.licenseCode" placeholder="请输入营业执照注册号" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col span="7">
+          <el-col :span="7">
             <el-form-item labelWidth="120px" label="企业类型" prop="enterpriseType">
               <el-select v-model="ruleForm.enterpriseType" placeholder="请选择企业类型">
                 <el-option
@@ -109,12 +105,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col span="17">
+          <el-col :span="17">
             <el-tag type="danger">收费标准（单个：2600元，集团：3400元，进出口：4200元）</el-tag>
           </el-col>
         </el-row>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="货币种类" prop="currency">
               <el-select v-model="ruleForm.currency" placeholder="请选择货币种类">
                 <el-option
@@ -126,14 +122,14 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="注册资金" prop="capital">
               <el-input v-model.number="ruleForm.capital" placeholder="请输入注册资金" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="80">
-          <el-col span="7">
+          <el-col :span="7">
             <el-form-item label="经济类型">
               <el-select v-model="ruleForm.economicType" placeholder="请选择经济类型">
                 <el-option
@@ -149,50 +145,50 @@
 
         <form-title name="联系人信息"></form-title>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="法定代表人" prop="leader">
               <el-input v-model="ruleForm.leader" placeholder="请输入姓名" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="手机" prop="leaderTele">
               <el-input v-model="ruleForm.leaderTele" placeholder="请输入电话" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="联系人" prop="contact">
               <el-input v-model="ruleForm.contact" placeholder="请输入姓名" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="手机" prop="contactTele">
               <el-input v-model="ruleForm.contactTele" placeholder="请输入电话" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="电子邮件地址" prop="contactEmail">
               <el-input v-model="ruleForm.contactEmail" placeholder="请输入电子邮件地址" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="接收邮件提醒" prop="emailReceive">
               <el-radio v-model="ruleForm.emailReceive" v-for="item in archives.emailable" :key="item.id" :label="item.id">{{item.name}}</el-radio>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="企业网站" prop="website">
               <el-input v-model="ruleForm.website" placeholder="请输入企业网站" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="40">
-          <el-col span="8">
+          <el-col :span="8">
             <el-form-item label="产品信息描述" prop="productInfo">
               <el-input v-model="ruleForm.productInfo" type="textarea" :autosize="{minRows:3, maxRows:5}" placeholder="请输入产品信息描述" clearable></el-input>
             </el-form-item>
@@ -202,24 +198,24 @@
         <div>
           <form-title name="发票信息"></form-title>
           <el-row :gutter="80">
-            <el-col span="12">
+            <el-col :span="12">
               <el-form-item label="发票抬头" prop="invoiceTitle">
                 <el-input v-model="ruleForm.invoiceTitle" placeholder="请输入发票抬头" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col span="12">
+            <el-col :span="12">
               <el-form-item label="纳税人识别号" prop="taxNumber">
                 <el-input v-model="ruleForm.taxNumber" placeholder="请输入纳税人识别号" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="80">
-            <el-col span="12">
+            <el-col :span="12">
               <el-form-item label="税务注册地址" prop="taxAddr">
                 <el-input v-model="ruleForm.taxAddr" placeholder="请输入税务注册地址" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col span="12">
+            <el-col :span="12">
               <el-form-item label="开户行" prop="openBank">
                 <el-input v-model="ruleForm.openBank" placeholder="请输入开户行" clearable></el-input>
               </el-form-item>
@@ -230,7 +226,6 @@
           </el-form-item>
         </div>
 
-
         <div class="footer">
           <el-form-item>
             <el-button size="medium" type="primary" @click="onSubmit">提交</el-button>
@@ -238,6 +233,17 @@
           </el-form-item>
         </div>
       </el-form>
+      <el-dialog
+        title="提示"
+        :visible.sync="needUpload"
+        width="30%"
+        center>
+        <span>是否需要上传附件</span>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="needUpload = false">取 消</el-button>
+        <el-button type="primary" @click="needUpload = false">确 定</el-button>
+      </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -279,7 +285,7 @@
           workplaceEn:'',
 
           adminareaCode:'',
-          adminarea:'',
+          adminarea:[],
           /*belongCenter:'',*/
           licenseCode:'',
           enterpriseType:'',
@@ -306,13 +312,13 @@
           regType: [{required: true, message: '请选择注册类型', trigger: 'change'}],
           enterpriseZh: [{required: true, message: '请输入企业名称', trigger: 'blur'}],
           registZh: [{required: true, message: '请输入注册地名称', trigger: 'blur'}],
-          registPostcode: [{required: true, message: '请输入注册地址邮编', trigger: 'blur'}],
+          registPostcode: [{required: true, validator:validForm.postCode, trigger: 'blur'}],
           workplaceZh: [{required: true, message: '请输入办公地址', trigger: 'blur'}],
-          workPostcode: [{required: true, message: '请输入办公邮政编码', trigger: 'blur'}],
-
+          workPostcode: [{required: true, validator:validForm.postCode, trigger: 'blur'}],
           adminarea: [{required: true, message: '请选择行政区划选择', trigger: 'change'}],
           belongCenter: [{required: true, message: '请选择所属分中心', trigger: 'change'}],
-          licenseCode: [{required: true, message: '请输入营业执照注册号', trigger: 'blur'}],
+          licenseCode: [{required: true, message: '请输入营业执照注册号', trigger: 'blur'},
+            { min: 15, max: 18, message: '营业执照注册号在15-18位之间', trigger: 'blur'}],
           enterpriseType: [{required: true, message: '请选择企业类型', trigger: 'change'}],
           capital: [{required: true, message: '请输入注册资金', trigger: 'blur'},
                     {type:'number',message:'请输入数字',trigger:'blur'}],
@@ -329,79 +335,7 @@
           taxNumber: [{required: true, Whitespace:false, message: '请输入纳税人识别号', trigger: 'blur'}],
         },
         archives:{},
-
-
-
-
-
-
-
-
-
-
-
-
-
-        regTypes: [
-          {
-            'label': '普通',
-            'value': 1
-          },
-          {
-            'label': '天猫',
-            'value': 2
-          },
-          {
-            'label': '淘宝',
-            'value': 3
-          },
-          {
-            'label': '亚马逊',
-            'value': 4
-          }
-        ],
-        enterpriseTypes:[
-          {
-            'label': '单个',
-            'value': 1
-          },
-          {
-            'label': '集团',
-            'value': 2
-          },
-          {
-            'label': '进出口',
-            'value': 3
-          }
-        ],
-        currencies:[
-          {
-            'label': '人民币',
-            'value': 1
-          },
-          {
-            'label': '美元',
-            'value': 2
-          },
-          {
-            'label': '英镑',
-            'value': 3
-          }
-        ],
-        economicTypes:[
-          {
-            'label': '内资',
-            'value': 1
-          },
-          {
-            'label': '国有全资',
-            'value': 2
-          },
-          {
-            'label': '集体全资',
-            'value': 3
-          }
-        ]
+        needUpload:false
       }
     },
     computed:{
@@ -436,12 +370,17 @@
         this.$refs.register.validate((valid) => {
           if(valid){
             registForm(Qs.stringify(this.ruleForm)).then((res) => {
-              this.$notify({
-                title: '成功',
-                message: '您已成功提交注册申请，请上传附件',
-                type: 'success',
-                offset:100
-              });
+              if(res.code === 200){
+                this.$message({
+                  message: '提交成功，您可以上传附件了',
+                  type: 'success'
+                });
+              }else{
+                this.$message({
+                  message: res.msg,
+                  type: 'error'
+                });
+              }
             }).catch((res) => {
               this.$notify({
                 title: '错误',

@@ -119,3 +119,10 @@ export function uploadAvatarBase64(data) {
 export function changePhone(data) {
   return ajaxRequest('user/modify/phone', data)
 }
+
+/**
+ * 获取用户申请
+ */
+export function getUserHistory(data) {
+  return ajaxRequest('busi/preview', data, 'get');
+}

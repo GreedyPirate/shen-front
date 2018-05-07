@@ -98,6 +98,7 @@ export const validForm = {
       callback();
     };
   },
+  // 密码
   password:(rule, value, callback) =>{
     if(rule.required){
       if(!value){
@@ -109,12 +110,25 @@ export const validForm = {
       }
     }
   },
+  // 邮编
+  postCode:(rule, value, callback) =>{
+  if(rule.required){
+    if(!value){
+      callback(new Error('请输入邮编号码'));
+    }else if(!validForm.pattresult["postCode"].test(value)){
+      callback(new Error('邮编号码长度为6位数字'));
+    }else{
+      callback();
+    }
+  }
+},
   pattresult: {
     "email": /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
     "chinese": /^[\u4e00-\u9fa5]{0,}$/,
     "phone": /^1[34578]\d{9}$/,
     "tel": /^([0-9]{3,4}-)?[0-9]{7,8}$/,
     "ymd": /^\d{4}\-\d{2}\-\d{2}$/,
-    "num": /^[0-9]*$/
+    "num": /^[0-9]*$/,
+    'postCode': /\d{6}/
   }
 };

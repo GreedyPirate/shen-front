@@ -43,23 +43,33 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+  import {getUserHistory} from 'api/invokeInterface'
+  import Qs from 'qs'
+  import store from 'store'
   export default {
     data() {
       return {
         select_cate: '',
         select_word: '',
         tableData: [
-          {
-            type:'天猫',
-            name: '华融资产',
-            address: '北京市西城区金融街8号',
-            money: '1000000',
-            contact: '万棽',
-            tel: '185xxxx9047'
-          }
+
         ],
         delVisible: false,
       }
+    },
+    created(){
+      let uid = {
+        id:store.get('user').id
+      }
+      debugger
+      getUserHistory(Qs.stringify(uid)).then((res) => {
+
+        if(res.code === 200){
+          this.tableData = res.data;
+        }else{
+          this.$message.error(res.msg);
+        }
+      })
     },
     methods: {
       handleDelAll() {
