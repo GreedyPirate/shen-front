@@ -22,10 +22,22 @@
         </el-table-column>
         <el-table-column prop="tel" label="电话" sortable width="150">
         </el-table-column>
+        <el-table-column prop="status" label="进度" sortable width="150">
+        </el-table-column>
+
 
         <el-table-column label="操作" min-width="180">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-dropdown size="mini" @command="handleCommand">
+              <el-button type="primary" size="small">
+                下载<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="excel">excel</el-dropdown-item>
+                <el-dropdown-item command="pdf">pdf</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
             <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -58,20 +70,24 @@
       }
     },
     created(){
-      let uid = {
+      getUserHistory(Qs.stringify({
         id:store.get('user').id
-      }
-      debugger
-      getUserHistory(Qs.stringify(uid)).then((res) => {
+      })).then((res) => {
 
         if(res.code === 200){
-          this.tableData = res.data;
+          this._normalizeTableData(res.data)
         }else{
           this.$message.error(res.msg);
         }
       })
     },
     methods: {
+      _normalizeTableData(data){
+        data.forEach((item, index) => {
+          item.status = item.status === 1?'处理中':'已通过';
+        })
+        this.tableData = data;
+      },
       handleDelAll() {
 
       },
@@ -86,6 +102,11 @@
       },
       handleCurrentChange() {
 
+      },
+      handleCommand(command) {
+        debugger
+        let host = window.location.origin;
+        window.location.href = `${host}/busi/${command}?uid=${store.get('user').id}`;
       },
       deleteRow(){
 

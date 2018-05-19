@@ -56,14 +56,14 @@ export function upload() {
  * @param data
  */
 export function deleteFile(data) {
-  return ajaxRequest('/regist/delete', data, 'delete');
+  return ajaxRequest('/regist/delete', data);
 }
 
 /**
  * 查询附件
  */
-export function getAttachs() {
-  return ajaxRequest('/regist/attachments')
+export function getAttachs(data) {
+  return ajaxRequest('/regist/attachments',data,'get')
 }
 
 /**
@@ -124,5 +124,20 @@ export function changePhone(data) {
  * 获取用户申请
  */
 export function getUserHistory(data) {
-  return ajaxRequest('busi/preview', data, 'get');
+  return ajaxRequest('busi/preview', data);
+}
+
+/**
+ * 如果是从编辑页面进入，获取信息
+ * @param data
+ */
+export function getEditRegister(data) {
+  return ajaxRequest('/regist/editer', data,'get');
+}
+
+/**
+ * 获取待办
+ */
+export function getTask() {
+  return ajaxRequest('busi/tasks');
 }

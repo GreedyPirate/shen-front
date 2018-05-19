@@ -7,6 +7,7 @@ import Apply from 'components/apply/apply'
 import Upload from 'components/upload/upload'
 import Pay from 'components/pay/pay'
 import Task from 'components/task/task'
+import TaskDetail from 'components/taskDetail/taskDetail'
 import Finished from 'components/finished/finished'
 import Error from 'components/error/error'
 
@@ -43,14 +44,19 @@ export default new Router({
         {
           path: '/task',
           name: 'Task',
-          component: Task
-
+          component: Task,
+          children:[
+            {
+              path: '/detail/:id',
+              name: 'TaskDetail',
+              component: TaskDetail
+            }
+          ]
         },
         {
           path: '/finished',
           name: 'Finished',
           component: Finished
-
         },
         {
           path: '/apply',

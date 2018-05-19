@@ -47,6 +47,7 @@
 
   import {getAttachs, download,deleteFile} from 'api/invokeInterface'
   import Qs from 'qs'
+  import store from 'store'
 
   export default {
     data() {
@@ -62,11 +63,17 @@
       }
     },
     created() {
-      getAttachs().then((res) => {
-        this.tableData = this._normalizeTable(res.data);
-      })
+      this.init();
     },
     methods: {
+      init(){
+        let uid = store.get('user').id;
+        getAttachs({
+          uid:uid
+        }).then((res) => {
+          this.tableData = this._normalizeTable(res.data);
+        })
+      },
       delAll(){
 
       },
@@ -115,11 +122,16 @@
       handleDelete(index, row) {
         let arr = [];
         arr.push(row.id)
-        let param = {ids:arr};
-        param = JSON.stringify(param);
-
-        deleteFile(param).then((res) => {
-          debugger
+        deleteFile(Qs.stringify({
+          ids:arr
+        },{ indices: false})).then((res) => {
+          if(res.code === 200){
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.init();
+          }
         })
       },
       handleDownload(index, row){

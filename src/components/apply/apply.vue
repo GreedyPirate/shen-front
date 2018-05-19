@@ -176,7 +176,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="接收邮件提醒" prop="emailReceive">
-              <el-radio v-model="ruleForm.emailReceive" v-for="item in archives.emailable" :key="item.id" :label="item.id">{{item.name}}</el-radio>
+              <el-radio v-model="ruleForm.emailReceive" v-for="item in archives.emailable" :key="item.id"
+                        :label="item.id">{{item.name}}
+              </el-radio>
             </el-form-item>
           </el-col>
         </el-row>
@@ -190,7 +192,8 @@
         <el-row :gutter="40">
           <el-col :span="8">
             <el-form-item label="产品信息描述" prop="productInfo">
-              <el-input v-model="ruleForm.productInfo" type="textarea" :autosize="{minRows:3, maxRows:5}" placeholder="请输入产品信息描述" clearable></el-input>
+              <el-input v-model="ruleForm.productInfo" type="textarea" :autosize="{minRows:3, maxRows:5}"
+                        placeholder="请输入产品信息描述" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -258,7 +261,7 @@
   import {getCurrentDate} from 'common/js/utils'
   import {validForm} from 'common/js/vaildations'
   import {regionData} from 'element-china-area-data'
-  import {getArchive,registForm} from 'api/invokeInterface'
+  import {getArchive, registForm, getEditRegister} from 'api/invokeInterface'
   import Qs from 'qs'
   import store from 'store'
 
@@ -279,86 +282,104 @@
           enterpriseEn: '',
           registZh: '',
           registEn: '',
-          registPostcode:'',
-          workPostcode:'',
-          workplaceZh:'',
-          workplaceEn:'',
+          registPostcode: '',
+          workPostcode: '',
+          workplaceZh: '',
+          workplaceEn: '',
 
-          adminareaCode:'',
-          adminarea:[],
+          adminarea: [],
+          adminareaCode: '',
           /*belongCenter:'',*/
-          licenseCode:'',
-          enterpriseType:'',
-          currency:'',
-          capital:'',
-          economicType:'',
-          economicTypeCode:'',
+          licenseCode: '',
+          enterpriseType: '',
+          currency: '',
+          capital: '',
+          economicType: '',
+          economicTypeCode: '',
 
-          leader:'',
-          leaderTele:'',
-          contact:'',
-          contactTele:'',
-          contactEmail:'',
-          emailReceive:'',
-          website:'',
-          productInfo:'',
+          leader: '',
+          leaderTele: '',
+          contact: '',
+          contactTele: '',
+          contactEmail: '',
+          emailReceive: '',
+          website: '',
+          productInfo: '',
 
-          invoiceTitle:'',
-          taxNumber:'',
-          taxAddr:'',
-          openBank:'',
+          invoiceTitle: '',
+          taxNumber: '',
+          taxAddr: '',
+          openBank: '',
         },
         rules: {
           regType: [{required: true, message: '请选择注册类型', trigger: 'change'}],
           enterpriseZh: [{required: true, message: '请输入企业名称', trigger: 'blur'}],
           registZh: [{required: true, message: '请输入注册地名称', trigger: 'blur'}],
-          registPostcode: [{required: true, validator:validForm.postCode, trigger: 'blur'}],
+          registPostcode: [{required: true, validator: validForm.postCode, trigger: 'blur'}],
           workplaceZh: [{required: true, message: '请输入办公地址', trigger: 'blur'}],
-          workPostcode: [{required: true, validator:validForm.postCode, trigger: 'blur'}],
+          workPostcode: [{required: true, validator: validForm.postCode, trigger: 'blur'}],
           adminarea: [{required: true, message: '请选择行政区划选择', trigger: 'change'}],
           belongCenter: [{required: true, message: '请选择所属分中心', trigger: 'change'}],
           licenseCode: [{required: true, message: '请输入营业执照注册号', trigger: 'blur'},
-            { min: 15, max: 18, message: '营业执照注册号在15-18位之间', trigger: 'blur'}],
+            {min: 15, max: 18, message: '营业执照注册号在15-18位之间', trigger: 'blur'}],
           enterpriseType: [{required: true, message: '请选择企业类型', trigger: 'change'}],
           capital: [{required: true, message: '请输入注册资金', trigger: 'blur'},
-                    {type:'number',message:'请输入数字',trigger:'blur'}],
+            {type: 'number', message: '请输入数字', trigger: 'blur'}],
           currency: [{required: true, message: '请选择货币种类', trigger: 'change'}],
 
           leader: [{required: true, message: '请输入法定代表人', trigger: 'blur'}],
-          leaderTele: [{required: true, validator:validForm.phone, trigger: 'blur'}],
+          leaderTele: [{required: true, validator: validForm.phone, trigger: 'blur'}],
           contact: [{required: true, message: '请输入联系人', trigger: 'blur'}],
-          contactTele: [{required: true, validator:validForm.phone, trigger: 'blur'}],
-          contactEmail:[{type:'email',message:'请输入正确的邮箱地址',trigger:'blur'}],
-          website:[{type:'url',message:'请输入正确网站地址',trigger:'blur'}],
+          contactTele: [{required: true, validator: validForm.phone, trigger: 'blur'}],
+          contactEmail: [{type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}],
+          website: [{type: 'url', message: '请输入正确网站地址', trigger: 'blur'}],
 
           invoiceTitle: [{required: true, message: '请输入发票抬头', trigger: 'blur'}],
-          taxNumber: [{required: true, Whitespace:false, message: '请输入纳税人识别号', trigger: 'blur'}],
+          taxNumber: [{required: true, Whitespace: false, message: '请输入纳税人识别号', trigger: 'blur'}],
         },
-        archives:{},
-        needUpload:false
+        archives: {},
+        needUpload: false
       }
     },
-    computed:{
+    computed: {
       registDate() {
         return getCurrentDate();
       }
     },
-    created(){
+    created() {
       this.initData();
       this.ruleForm.contactTele = store.get('user').phoneNumber;
+      let uid = store.get('user').id;
+      let from = this.$route.query.from;
+      if (from === 'edit') {
+        getEditRegister({
+          userId: uid
+        }).then((res) => {
+          if (res.code === 200) {
+            this.initValue(res.data);
+          }
+        })
+      }
     },
     methods: {
-      initData(){
+      initData() {
         getArchive().then((res) => {
-          if(res.code === 200){
+          if (res.code === 200) {
             this.archives = this._normalizeArchive(res.data);
-            console.log(this.archives)
           }
         })
       },
-      _normalizeArchive(data){
+      initValue(data) {
+        for (let key in this.ruleForm) {
+          if (data.hasOwnProperty(key) && this.ruleForm.hasOwnProperty(key)) {
+            this.ruleForm[key] = data[key];
+          }
+        }
+
+      },
+      _normalizeArchive(data) {
         let obj = {};
-        data.forEach((item,index) => {
+        data.forEach((item, index) => {
           obj[item.code] = item.archiveDetails;
         })
         return obj;
@@ -368,14 +389,14 @@
       },
       onSubmit() {
         this.$refs.register.validate((valid) => {
-          if(valid){
+          if (valid) {
             registForm(Qs.stringify(this.ruleForm)).then((res) => {
-              if(res.code === 200){
+              if (res.code === 200) {
                 this.$message({
                   message: '提交成功，您可以上传附件了',
                   type: 'success'
                 });
-              }else{
+              } else {
                 this.$message({
                   message: res.msg,
                   type: 'error'
@@ -386,7 +407,7 @@
                 title: '错误',
                 message: '提交失败',
                 type: 'success',
-                offset:100
+                offset: 100
               });
             })
           }
