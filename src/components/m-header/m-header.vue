@@ -16,8 +16,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="mine">个人信息</el-dropdown-item>
             <el-dropdown-item command="modify">修改密码</el-dropdown-item>
-            <el-dropdown-item command="handleFullScreen">全屏</el-dropdown-item>
-            <el-dropdown-item command="lock">锁屏</el-dropdown-item>
+            <el-dropdown-item command="screen">全屏</el-dropdown-item>
             <el-dropdown-item command="exit">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -50,14 +49,18 @@
           case 'exit':
             this.exit();
             break;
-          case 'lock':
+          case 'screen':
+            this.handleFullScreen();
             break;
+          default:
+            console.log('into default');
         }
       },
       exit(){
         this.$router.push('/');
       },
       handleFullScreen(){
+        debugger
         let element = document.documentElement;
         if (this.fullscreen) {
           if (document.exitFullscreen) {

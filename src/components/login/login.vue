@@ -127,12 +127,8 @@
           this.$refs.login.validate((valid) => {
             if(valid){
               login(Qs.stringify(this.login)).then((res) => {
-                if(res.code == 200){
-                  store.set('user',res.data);
-                  this.$router.push('/profile');
-                }else{
-                  this.$message.error(res.msg);
-                }
+                store.set('user',res);
+                this.$router.push('/profile');
               })
             }else{
               this.$message.error(this.$t('lang.submit'));
@@ -153,11 +149,7 @@
           this.$refs.regist.validate((valid) => {
             if(valid){
               regist(Qs.stringify(self.regist)).then((res) => {
-                if(res.code == 200){
                   self.$router.push('/profile');
-                }else{
-                  self.$message.error(res.msg);
-                }
               });
             }else{
               return false;
@@ -222,6 +214,7 @@
       margin-top 130px
       text-align center
       font-size 30px
+      color #FFF
     .lang
       position absolute
       right 50px

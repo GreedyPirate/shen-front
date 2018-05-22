@@ -5,11 +5,11 @@
         <el-breadcrumb-item><i class="el-icon-setting"></i>待办理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-
-    <el-tabs v-model="activeTab" type="card" closable @tab-remove="removeTab">
+    <el-tabs v-model="tabValue" type="card" addable editable closable @tab-remove="removeTab">
       <el-tab-pane
-       label="首页"
-       name="1"
+        label="首页"
+        name="1"
+        key="1"
       >
         <div>
           <div class="handle-box">
@@ -48,23 +48,24 @@
         </div>
       </el-tab-pane>
       <el-tab-pane
-        v-for="(item, index) in tabData"
+        v-for="item in tabArr"
         :key="item.name"
         :label="item.title"
         :name="item.name"
-        :closable="item.closable"
       >
+        <span v-if="item.content">{{item.content}}</span>
+        <component :is="item.component" :id="detailId"></component>
       </el-tab-pane>
     </el-tabs>
-
   </div>
 </template>
 <script type="text/ecmascript-6">
   import {getTask} from 'api/invokeInterface'
   import TaskDetail from 'components/taskDetail/taskDetail'
 
+
   export default {
-    components:{
+    components: {
       TaskDetail
     },
     data() {
@@ -73,57 +74,32 @@
         select_word: '',
         tableData: [],
         delVisible: false,
-        activeTab: '1',
-        tabData: [
-          {
-            title: '第二页',
-            name: '2',
-            content: '',
-            closable: true
-          }
-        ],
-        tabIndex: 2
+        tabValue:'1',
+        tabIndex:1,
+        tabArr:[],
+        detailId:-1
       }
     },
-    created(){
+    created() {
       getTask().then((res) => {
-        this.tableData = res.data;
+        this.tableData = res;
       })
     },
     methods: {
       handleSearch() {
 
       },
+      removeTab(){},
       approve(index, row) {
-        this.$router.push({
-          path: 'apply',
-          name: 'apply',
-          query: {
-            from:'edit'
-          }
-        })
-        /*let detail = resolve => require(['../taskDetail/taskDetail'], resolve);
+        let tabName = row.name.substr(0,4);
         let newTabName = ++this.tabIndex + '';
-        this.tabData.push({
-          title: row.name.substring(0,3)+' ...',
+        this.tabArr.push({
+          title: tabName,
           name: newTabName,
-          content: TaskDetail
+          component:'TaskDetail'
         });
-        this.activeTab = newTabName;*/
-      },
-      removeTab(targetName){
-        let tabs = this.tabData;
-        let activeName = this.activeTab;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
-              }
-            }
-          });
-        }
+        this.tabValue = newTabName;
+        this.detailId = row.id;
       },
       handleDelete(index, row) {
 
@@ -131,7 +107,7 @@
       handleCurrentChange() {
 
       },
-      deleteRow(){
+      deleteRow() {
 
       }
     }

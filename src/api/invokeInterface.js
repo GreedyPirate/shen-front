@@ -128,6 +128,13 @@ export function getUserHistory(data) {
 }
 
 /**
+ * 从办理任务里删除
+ */
+export function deleteRegister(data) {
+  return ajaxRequest('busi/delete',data);
+}
+
+/**
  * 如果是从编辑页面进入，获取信息
  * @param data
  */
@@ -140,4 +147,20 @@ export function getEditRegister(data) {
  */
 export function getTask() {
   return ajaxRequest('busi/tasks');
+}
+
+/**
+ * 获取申请详情
+ * @param data
+ */
+export function getDetail(data) {
+  return ajaxRequest('/busi/detail', data,'get');
+}
+
+/**
+ * 审批
+ * @param data
+ */
+export function approve(data) {
+  return ajaxRequest('/busi/approve', data);
 }

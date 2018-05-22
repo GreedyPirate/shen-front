@@ -38,8 +38,7 @@
     },
     created(){
       loadSideMenu().then((res) => {
-        this.menu = res.data;
-//        console.log(this.menu)
+        this.menu = res;
       })
     },
     methods:{

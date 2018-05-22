@@ -71,7 +71,7 @@
         getAttachs({
           uid:uid
         }).then((res) => {
-          this.tableData = this._normalizeTable(res.data);
+          this.tableData = this._normalizeTable(res);
         })
       },
       delAll(){
@@ -125,13 +125,11 @@
         deleteFile(Qs.stringify({
           ids:arr
         },{ indices: false})).then((res) => {
-          if(res.code === 200){
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.init();
-          }
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.init();
         })
       },
       handleDownload(index, row){

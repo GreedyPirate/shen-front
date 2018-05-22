@@ -43,10 +43,6 @@ export default function ajaxRequest(url, data, method) {
     "data":data
   }).then((res) => {
     return Promise.resolve(res.data);
-  }).catch((err) => {
-    //this.$router.push('/error')
-    //return Promise.reject(err.data);
-  })
-  ;
+  });
 }
 

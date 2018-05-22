@@ -355,18 +355,14 @@
         getEditRegister({
           userId: uid
         }).then((res) => {
-          if (res.code === 200) {
-            this.initValue(res.data);
-          }
+            this.initValue(res);
         })
       }
     },
     methods: {
       initData() {
         getArchive().then((res) => {
-          if (res.code === 200) {
-            this.archives = this._normalizeArchive(res.data);
-          }
+            this.archives = this._normalizeArchive(res);
         })
       },
       initValue(data) {
@@ -391,24 +387,11 @@
         this.$refs.register.validate((valid) => {
           if (valid) {
             registForm(Qs.stringify(this.ruleForm)).then((res) => {
-              if (res.code === 200) {
                 this.$message({
                   message: '提交成功，您可以上传附件了',
                   type: 'success'
                 });
-              } else {
-                this.$message({
-                  message: res.msg,
-                  type: 'error'
-                });
-              }
-            }).catch((res) => {
-              this.$notify({
-                title: '错误',
-                message: '提交失败',
-                type: 'success',
-                offset: 100
-              });
+                setTimeout(()=>{this.$router.push('/upload')},3000);
             })
           }
         })

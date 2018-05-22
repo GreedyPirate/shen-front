@@ -55,7 +55,7 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import {getUserHistory} from 'api/invokeInterface'
+  import {getUserHistory, deleteRegister} from 'api/invokeInterface'
   import Qs from 'qs'
   import store from 'store'
   export default {
@@ -67,18 +67,14 @@
 
         ],
         delVisible: false,
+        deleteId: -1
       }
     },
     created(){
       getUserHistory(Qs.stringify({
         id:store.get('user').id
       })).then((res) => {
-
-        if(res.code === 200){
-          this._normalizeTableData(res.data)
-        }else{
-          this.$message.error(res.msg);
-        }
+        this._normalizeTableData(res)
       })
     },
     methods: {
@@ -95,21 +91,38 @@
 
       },
       handleEdit(index, row) {
-
+        this.$router.push({
+          path: 'apply',
+          name: 'apply',
+          query: {
+            from: 'edit'
+          }
+        })
       },
       handleDelete(index, row) {
-
+        this.deleteId = row.id;
+        this.delVisible = true;
       },
       handleCurrentChange() {
 
       },
       handleCommand(command) {
-        debugger
         let host = window.location.origin;
         window.location.href = `${host}/busi/${command}?uid=${store.get('user').id}`;
       },
       deleteRow(){
-
+        debugger
+        deleteRegister(Qs.stringify({
+          id : this.deleteId
+        })).then((res) => {
+          if(res === true){
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.init();
+          }
+        })
       }
     }
   }

@@ -32,7 +32,8 @@
       <div class="m-text">
         <a class="aupload">修改头像<input class="crop-input" type="file" name="image" accept="image/*" @change="setImage"/></a>
         <el-dialog title="裁剪图片" :visible.sync="dialogVisible" width="30%">
-          <vue-cropper ref='cropper' :src="imgSrc" :ready="cropImage" :zoom="cropImage" :cropmove="cropImage" style="width:100%;height:300px;"></vue-cropper>
+          <vue-cropper ref='cropper' :src="imgSrc" :ready="cropImage" :zoom="cropImage" :cropmove="cropImage"
+                       style="width:100%;height:300px;"></vue-cropper>
           <span slot="footer" class="dialog-footer">
                     <el-button @click="cancelCrop">取 消</el-button>
                     <el-button type="primary" @click="uploadAvatar">确 定</el-button>
@@ -78,7 +79,7 @@
             </span>
           </div>
           <div class="op">
-            <a @click="modifyEmail">{{info.email?'修改':'设置'}}</a>
+            <a @click="modifyEmail">{{info.email ? '修改' : '设置'}}</a>
           </div>
         </li>
       </ul>
@@ -95,30 +96,30 @@
   import Password from 'components/password/password'
   import Email from 'components/email/email'
   import CellPhone from 'components/cellPhone/cellPhone'
-  import VueCropper  from 'vue-cropperjs';
-  import {getUserInfo,changePwd, changeEmail,uploadAvatarBase64, changePhone} from 'api/invokeInterface'
+  import VueCropper from 'vue-cropperjs';
+  import {getUserInfo, changePwd, changeEmail, uploadAvatarBase64, changePhone} from 'api/invokeInterface'
   import Qs from 'qs'
   import store from 'store'
   import avatar from '@/assets/avatar.jpg'
 
   export default {
-    data(){
+    data() {
       return {
-        info:{},
+        info: {},
         showMask: false,
         showPassword: false,
         showEmail: false,
         showPhone: false,
-        param:{},
+        param: {},
 
         defaultSrc: './static/img/img.jpg',
         fileList: [],
         imgSrc: '',
-        cropImg:avatar,
+        cropImg: avatar,
         dialogVisible: false,
       }
     },
-    components:{
+    components: {
       FormTitle,
       PageMask,
       Password,
@@ -126,17 +127,15 @@
       CellPhone,
       VueCropper
     },
-    created(){
+    created() {
       let user = store.get('user');
-      getUserInfo({id:user.id}).then((res) => {
-        if(res.code == 200){
-          this.info = res.data;
-          this.cropImg = res.data.avatar;
-        }
+      getUserInfo({id: user.id}).then((res) => {
+        this.info = res;
+        this.cropImg = res.avatar;
       })
       this.param['id'] = user.id;
     },
-    computed:{
+    computed: {
       getAvatar() {
         return this.info.avatar ? this.info.avatar : avatar;
       },
@@ -145,12 +144,12 @@
         return `${host}/user/avatar`
       }
     },
-    methods:{
+    methods: {
       modifyPwd() {
         this.showMask = true;
         this.showPassword = true;
       },
-      modifyEmail(){
+      modifyEmail() {
         this.showMask = true;
         this.showEmail = true;
       },
@@ -172,65 +171,50 @@
       },
       submitPwd(data) {
         changePwd(Qs.stringify(data)).then((res) => {
-          if (res.code === 200){
-            if(res.data === true){
-              this.$message({
-                message: '修改密码成功',
-                type: 'success'
-              });
-              setTimeout(() =>{
-                this.$router.push('/');
-              },2000)
-
-             /* this.showMask = false;
-              this.showPassword = false;*/
-            }else{
-              this.$message.error('当前密码错误');
-            }
-          }else{
-            this.$message.error(res.msg);
+          if (res === true) {
+            this.$message({
+              message: '修改密码成功',
+              type: 'success'
+            });
+            setTimeout(() => {
+              this.$router.push('/');
+            }, 2000);
+          } else {
+            this.$message.error('当前密码错误');
           }
         })
       },
       submitEmail(data) {
         data['id'] = store.get('user').id;
         changeEmail(Qs.stringify(data)).then((res) => {
-          if (res.code === 200){
-            if(res.data === true){
-              this.$message({
-                message: '修改邮箱成功',
-                type: 'success'
-              });
-              this.showMask = false;
-              this.showEmail = false;
-            }else{
-              // TODO
-            }
-          }else{
-            this.$message.error(res.msg);
+          if (res === true) {
+            this.$message({
+              message: '修改邮箱成功',
+              type: 'success'
+            });
+            this.showMask = false;
+            this.showEmail = false;
+          } else {
+            // TODO
           }
         })
       },
-      submitPhone(data){
+      submitPhone(data) {
         data['id'] = store.get('user').id;
         changePhone(Qs.stringify(data)).then((res) => {
-          if (res.code === 200){
-            if(res.data === true){
-              this.$message({
-                message: '修改手机号成功',
-                type: 'success'
-              });
-              this.showMask = false;
-              this.showPhone = false;
-            }else{
-              // TODO
-            }
-          }else{
-            this.$message.error(res.msg);
+          if (res === true) {
+            this.$message({
+              message: '修改手机号成功',
+              type: 'success'
+            });
+            this.showMask = false;
+            this.showPhone = false;
+          } else {
+            // TODO
           }
         })
       },
-      setImage(e){
+      setImage(e) {
         const file = e.target.files[0];
         if (!file.type.includes('image/')) {
           return;
@@ -243,33 +227,29 @@
         };
         reader.readAsDataURL(file);
       },
-      cropImage () {
+      cropImage() {
         this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
       },
-      cancelCrop(){
+      cancelCrop() {
         this.dialogVisible = false;
         this.cropImg = avatar;
       },
       imageuploaded(res) {
         console.log(res)
       },
-      handleError(){
+      handleError() {
         this.$notify.error({
           title: '上传失败',
           message: '上传头像失败'
         });
       },
-      uploadAvatar(){
-        debugger
+      uploadAvatar() {
         uploadAvatarBase64(Qs.stringify({
-          cropImg:this.cropImg,
-          id:store.get('user').id
+          cropImg: this.cropImg,
+          id: store.get('user').id
         })).then((res) => {
-          if(res.code === 200){
-            this.dialogVisible = false;
-          }else{
-            this.$router.go(0);
-          }
+          this.dialogVisible = false;
+          //this.$router.go(0);
         })
       }
     }
@@ -315,6 +295,7 @@
           top 0
           opacity 0
           cursor pointer
+
   .middle-area
     font-size 12px
     color #333
