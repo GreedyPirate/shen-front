@@ -194,6 +194,7 @@
             });
             this.showMask = false;
             this.showEmail = false;
+            this.info.email = data.email;
           } else {
             // TODO
           }
@@ -209,6 +210,7 @@
             });
             this.showMask = false;
             this.showPhone = false;
+            this.info.phoneNumber = data.phone.replace(/^(\d{3})\d{4}(\d{4})$/,'$1****$2');
           } else {
             // TODO
           }
