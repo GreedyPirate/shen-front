@@ -6,8 +6,8 @@
     <i class="el-icon-close close-x" @click="onCancle"></i>
     <el-form ref="phoneNumber" :model="form" :rules="rules" label-width="80px">
       <el-form-item>
-        <el-form-item prop="phoneNumber" class="item" label="手机号">
-          <el-input v-model="form.phoneNumber">
+        <el-form-item prop="phone" class="item" label="手机号">
+          <el-input v-model="form.phone">
           </el-input>
         </el-form-item>
         <el-form-item class="bottom">
@@ -31,10 +31,10 @@
     data() {
       return {
         form: {
-          phoneNumber: ''
+          phone: ''
         },
         rules: {
-          phoneNumber:[{ required: true, trigger: 'blur',validator:validForm.phone }]
+          phone:[{ required: true, trigger: 'blur',validator:validForm.phone }]
         }
       }
     },
