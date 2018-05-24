@@ -11,8 +11,7 @@
       <el-button type="primary" @click="delAll">批量删除</el-button>
     </div>
 
-    <el-table :data="tableData" style="width: 100%" size="small" ref="fileTables"
-              @selection-change="handleSelectionChange">
+    <el-table :data="tableData" style="width: 100%" size="small" ref="fileTables">
       <el-table-column type="selection" width="55" ></el-table-column>
       <el-table-column prop="id" label="Id" sortable width="150">
       </el-table-column>
@@ -74,9 +73,6 @@
           this.tableData = this._normalizeTable(res);
         })
       },
-      delAll(){
-
-      },
       handleUploaded(res){
         let self = this;
         if(res.data.code === -1){
@@ -94,7 +90,7 @@
         let result = [];
         data.forEach((item, index) => {
           result.push({
-            id: index+1,
+            id: item.id,
             name: item.name,
             date: item.uploadTime,
             size: (item.size/1024).toFixed(2) + 'kb'
@@ -102,39 +98,75 @@
         })
         return result;
       },
-
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
-      },
-      handleSelectionChange(val) {
-        debugger
-        this.multipleSelection = val;
+      delAll(){
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let arr = this.$refs.fileTables.selection.map((item)=>{
+            return item.id;
+          })
+          deleteFile(Qs.stringify({
+            ids:arr
+          },{ indices: false})).then((res) => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.init();
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       handleDelete(index, row) {
-        let arr = [];
-        arr.push(row.id)
-        deleteFile(Qs.stringify({
-          ids:arr
-        },{ indices: false})).then((res) => {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let arr = [];
+          arr.push(row.id)
+          deleteFile(Qs.stringify({
+            ids:arr
+          },{ indices: false})).then((res) => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.init();
+          })
+        }).catch(() => {
           this.$message({
-            message: '删除成功',
-            type: 'success'
+            type: 'info',
+            message: '已取消删除'
           });
-          this.init();
-        })
+        });
+      },
+      confirm() {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       handleDownload(index, row){
         let host = window.location.origin;
-        window.location.href = `${host}/regist/download?id=${row.id}`;
+        window.location.href = `${host}/regist/download/v2?id=${row.id}`;
       },
       formatter(row, column) {
         return row.size;

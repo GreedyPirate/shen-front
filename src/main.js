@@ -12,21 +12,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/base.css';
 import 'font-awesome/css/font-awesome.min.css'
 import 'common/stylus/index.styl'
-import { Button, Notification, Row, Col, Collapse, CollapseItem } from 'element-ui'
-Vue.component(Button.name, Button)
-Vue.component(Notification.name, Notification)
-Vue.component(Row.name, Row)
-Vue.component(Col.name, Col)
-Vue.component(CollapseItem.name, CollapseItem)
-Vue.component(Collapse.name, Collapse)
-Vue.prototype.$notify = Notification
+import { Message } from 'element-ui'
 
 
 Vue.use(ElementUI);
 Vue.use(VueI18n);
-/*Vue.component(Message);
-const notify = Message;
-Vue.prototype.$message = notify;*/
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
@@ -51,18 +41,13 @@ router.beforeEach((to, from, next) => {
 });
 
 axios.interceptors.response.use(function (response) {
-
   let data = response.data;
   if(data.code !== 200 && data.code !== 0){
-    debugger
-    Vue.$notify.error({
-      title: '错误',
-      message: data.msg
-    });
+    Message.error(data.msg);
   }
   return data;
 }, function (error) {
-
+  Message.error('服务器繁忙,请稍后重试');
   return Promise.reject(error);
 });
 
