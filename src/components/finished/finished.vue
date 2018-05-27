@@ -9,7 +9,6 @@
     <div>
       <el-table :data="tableData" border style="width: 100%" ref="multipleTable">
         <el-table-column type="selection" width="55"></el-table-column>
-
         <el-table-column prop="type" label="注册类型" sortable min-width="150">
         </el-table-column>
         <el-table-column prop="name" label="企业名称" sortable min-width="180">
@@ -24,7 +23,6 @@
         </el-table-column>
         <el-table-column prop="status" label="进度" sortable width="150">
         </el-table-column>
-
 
         <el-table-column label="操作" min-width="180">
           <template slot-scope="scope">
@@ -43,15 +41,6 @@
         </el-table-column>
       </el-table>
     </div>
-
-    <!-- 删除提示框 -->
-    <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
-      <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
-      <span slot="footer" class="dialog-footer">
-                <el-button @click="delVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteRow">确 定</el-button>
-            </span>
-    </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -63,11 +52,7 @@
       return {
         select_cate: '',
         select_word: '',
-        tableData: [
-
-        ],
-        delVisible: false,
-        deleteId: -1
+        tableData: []
       }
     },
     created(){
@@ -84,12 +69,6 @@
         })
         this.tableData = data;
       },
-      handleDelAll() {
-
-      },
-      handleSearch() {
-
-      },
       handleEdit(index, row) {
         this.$router.push({
           path: 'apply',
@@ -100,29 +79,32 @@
         })
       },
       handleDelete(index, row) {
-        this.deleteId = row.id;
-        this.delVisible = true;
-      },
-      handleCurrentChange() {
-
+        this.$confirm('删除后不可恢复，是否继续', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteRegister(Qs.stringify({
+            id : row.id
+          })).then((res) => {
+            if(res === true){
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              this.init();
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       handleCommand(command) {
         let host = window.location.origin;
         window.location.href = `${host}/busi/${command}?uid=${store.get('user').id}`;
-      },
-      deleteRow(){
-        debugger
-        deleteRegister(Qs.stringify({
-          id : this.deleteId
-        })).then((res) => {
-          if(res === true){
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.init();
-          }
-        })
       }
     }
   }

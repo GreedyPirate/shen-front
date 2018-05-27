@@ -1,8 +1,8 @@
 <template>
   <div class="detail">
-    <form-title name="企业基本信息"></form-title>
-    <div>
-      {{detail}}
+    <div class="block">
+      <form-title name="企业基本信息"></form-title>
+        
     </div>
     <el-form v-model="formData">
       <el-row :gutter="16">
@@ -22,7 +22,6 @@
         <el-radio v-model="formData.pass" name="pass" label="1">通过</el-radio>
         <el-radio v-model="formData.pass" name="pass" label="2">不通过</el-radio>
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary" @click="onSubmit">审批</el-button>
         <el-button @click="onCancel">取消</el-button>
