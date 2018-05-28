@@ -6,7 +6,7 @@
     <div class="lang">
       <el-dropdown @command="handleLanguage">
         <span class="el-dropdown-link">
-          {{$t('lang.switchLang')}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{$t('lang.switchLang')}}<i class="el-icon-arrow-down switch-label"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="zh">中文</el-dropdown-item>
@@ -116,6 +116,7 @@
           return this.$t('lang.plsPhone');
         },
         plsPassword(){
+
           return this.$t('lang.plsPassword');
         },
         btnName() {
@@ -219,6 +220,8 @@
       position absolute
       right 50px
       top 30px
+      .el-dropdown-link
+        color #fff
     .login-wrapper
       position absolute
       top 50%

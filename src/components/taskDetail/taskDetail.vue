@@ -2,7 +2,29 @@
   <div class="detail">
     <div class="block">
       <form-title name="企业基本信息"></form-title>
-        
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <div>
+            <div class="key">注册类型：</div>
+            <div class="value">{{detail.regType}}</div>
+          </div>
+        </el-col>
+        <el-col :span="6"><div class="grid-content bg-purple">企业名称(中文):{{detail.enterpriseZh}}</div></el-col>
+        <el-col :span="6"><div class="grid-content bg-purple">企业名称(英文):{{detail.enterpriseEn}}</div></el-col>
+        <el-col :span="6"><div class="grid-content bg-purple">注册地址(中文):{{detail.registZh}}</div></el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6"><div class="grid-content bg-purple">注册地址(英文): {{detail.registEn}}</div></el-col>
+        <el-col :span="6"><div class="grid-content bg-purple">注册地址邮编:{{detail.registPostcode}}</div></el-col>
+        <el-col :span="6"><div class="grid-content bg-purple">办公邮政编码:{{detail.workPostcode}}</div></el-col>
+        <el-col :span="6"><div class="grid-content bg-purple">办公地址(中文):{{detail.workplaceZh}}</div></el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6"><div class="grid-content bg-purple">办公地址(英文): {{detail.workplaceEn}}</div></el-col>
+      </el-row>
+    </div>
+    <div class="block">
+      <form-title name="行政区域信息"></form-title>
     </div>
     <el-form v-model="formData">
       <el-row :gutter="16">
@@ -60,21 +82,31 @@
       }
     },
     created() {
-      console.log(this.id);
       getDetail({
         id: this.id
       }).then((res) => {
         this.detail = res;
+        debugger
       })
     },
     methods: {
       onSubmit() {
 
-      }
+      },
+      onCancel(){}
     }
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .detail
     color #000
+    .blick
+      div
+        display inline-block
+        &.key
+          width 90px
+          color #99a9bf
+        &.values
+          line-height 40px
+          font-size 14px
 </style>

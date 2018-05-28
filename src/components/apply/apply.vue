@@ -248,6 +248,7 @@
       </span>
       </el-dialog>
     </div>
+    <back-top></back-top>
   </div>
 </template>
 
@@ -258,6 +259,7 @@
   import ElRow from "element-ui/packages/row/src/row";
   import ElCol from "element-ui/packages/col/src/col";
   import FormTitle from 'common/vue/title'
+  import backTop from 'components/backToTop/backToTop'
   import {getCurrentDate} from 'common/js/utils'
   import {validForm} from 'common/js/vaildations'
   import {regionData} from 'element-china-area-data'
@@ -271,7 +273,8 @@
       ElRow,
       ElInput,
       ElFormItem,
-      FormTitle
+      FormTitle,
+      backTop
     },
     data: function () {
       return {

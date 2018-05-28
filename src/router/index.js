@@ -16,6 +16,7 @@ import Error from 'components/error/error'
 Vue.use(Router)
 
 export default new Router({
+  scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
       path: '/',
