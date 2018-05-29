@@ -161,6 +161,6 @@ export function getDetail(data) {
  * 审批
  * @param data
  */
-export function approve(data) {
+export function approveForm(data) {
   return ajaxRequest('/busi/approve', data);
 }

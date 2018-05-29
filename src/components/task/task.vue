@@ -5,13 +5,13 @@
         <el-breadcrumb-item><i class="el-icon-setting"></i>待办理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-tabs v-model="tabValue" type="card" addable editable closable @tab-remove="removeTab">
+    <el-tabs v-model="tabValue" type="card" addable editable closable @edit="handleTabsEdit" @tab-remove="removeTab">
       <el-tab-pane
         label="首页"
         name="1"
         key="1"
       >
-        <div>
+        <div ref="index">
           <div class="handle-box">
             <el-select v-model="select_cate" placeholder="筛选注册类型" class="handle-select mr10" size="small">
               <el-option key="1" label="天猫" value="1"></el-option>
@@ -54,14 +54,15 @@
         :name="item.name"
       >
         <span v-if="item.content">{{item.content}}</span>
-        <component :is="item.component" :id="detailId"></component>
+        <component :is="item.component" :id="detailId" @approve="submit" @cancel="close"></component>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import {getTask} from 'api/invokeInterface'
+  import {getTask,approveForm} from 'api/invokeInterface'
   import TaskDetail from 'components/taskDetail/taskDetail'
+  import Qs from 'qs'
 
 
   export default {
@@ -91,7 +92,7 @@
       },
       removeTab(){},
       approve(index, row) {
-        let tabName = row.name.substr(0,4);
+        let tabName = row.name.substr(0,4)+'..';
         let newTabName = ++this.tabIndex + '';
         this.tabArr.push({
           title: tabName,
@@ -106,6 +107,36 @@
       },
       handleCurrentChange() {
 
+      },
+      submit(data){
+        debugger
+        approveForm(Qs.stringify(data)).then((res) => {
+          debugger
+        })
+      },
+      close(){
+
+      },
+      handleTabsEdit(targetName, action){
+        debugger
+        if (action === 'remove') {
+          let tabs = this.tabArr;
+          let activeName = this.tabValue;
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              debugger
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
+              }
+            });
+          }
+
+          this.tabValue = '1';
+          this.tabArr = tabs.filter(tab => tab.name !== targetName);
+        }
       },
       deleteRow() {
 

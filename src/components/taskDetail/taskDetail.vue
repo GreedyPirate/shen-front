@@ -97,19 +97,18 @@
             <span>{{ detail.openBank }}</span>
           </el-form-item>
       </div>
-      <div class="btns">
+      <div class="form-cmp">
         <el-form-item class="item" prop="memo">
           <el-input
             type="textarea"
-            :autosize="{ minRows: 2, maxRows: 15}"
-            rows="20"
+            :rows="3"
             placeholder="请输入审批意见"
             v-model="formData.memo">
           </el-input>
         </el-form-item>
         <el-form-item class="item" prop="pass">
-          <el-radio v-model="formData.pass" name="pass" label="1">通过</el-radio>
-          <el-radio v-model="formData.pass" name="pass" label="2">不通过</el-radio>
+          <el-radio v-model="formData.pass" name="pass" label="2">通过</el-radio>
+          <el-radio v-model="formData.pass" name="pass" label="3">不通过</el-radio>
         </el-form-item>
       </div>
       <div class="btns">
@@ -126,7 +125,6 @@
   import {getDetail} from 'api/invokeInterface'
   import ElForm from "../../../node_modules/element-ui/packages/form/src/form.vue";
   import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item.vue";
-  import ElRow from "element-ui/packages/row/src/row";
 
   export default {
     props: {
@@ -135,7 +133,6 @@
       }
     },
     components: {
-      ElRow,
       ElFormItem,
       ElForm,
       FormTitle
@@ -159,9 +156,12 @@
     },
     methods: {
       onSubmit() {
-
+        this.formData['id'] = this.id;
+        this.$emit('approve',this.formData);
       },
-      onCancel(){}
+      onCancel(){
+        this.$emit('cancel');
+      }
     }
   }
 </script>
@@ -175,12 +175,17 @@
     margin-bottom 0
     width 48%
     label
+
       width 110px
       color #99a9bf
 
-  .btns
+  .form-cmp
     margin-top 20px
-    text-align center
+    text-align left
     .item
-      width 30%
+      width 50%
+      .el-form-item__content
+        width 50%
+  .btns
+    text-align center
 </style>
