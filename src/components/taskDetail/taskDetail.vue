@@ -130,6 +130,9 @@
     props: {
       id: {
         type: Number
+      },
+      name:{
+        type: String
       }
     },
     components: {
@@ -157,6 +160,7 @@
     methods: {
       onSubmit() {
         this.formData['id'] = this.id;
+        this.formData['name'] = this.name;
         this.$emit('approve',this.formData);
       },
       onCancel(){

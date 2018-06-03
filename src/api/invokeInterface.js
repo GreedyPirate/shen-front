@@ -9,6 +9,14 @@ export function login(data) {
 }
 
 /**
+ * 获取用户所有的菜单
+ * @param data
+ */
+export function getMenu(data) {
+  return ajaxRequest('/user/menus',data);
+}
+
+/**
  * 用户注册
  * @param data
  */
@@ -17,7 +25,8 @@ export function regist(data) {
 }
 
 /**
- * 侧边栏菜单
+ * 侧边栏菜单 mock
+ * @deprecated
  */
 export function loadSideMenu() {
   return ajaxRequest('/api/menu');

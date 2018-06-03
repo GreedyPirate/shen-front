@@ -56,13 +56,16 @@
       }
     },
     created(){
-      getUserHistory(Qs.stringify({
-        id:store.get('user').id
-      })).then((res) => {
-        this._normalizeTableData(res)
-      })
+      this.init();
     },
     methods: {
+      init(){
+        getUserHistory(Qs.stringify({
+          id:store.get('user').id
+        })).then((res) => {
+          this._normalizeTableData(res)
+        })
+      },
       _normalizeTableData(data){
         data.forEach((item, index) => {
           item.status = item.status === 1?'处理中':'已通过';

@@ -131,7 +131,9 @@
       let user = store.get('user');
       getUserInfo({id: user.id}).then((res) => {
         this.info = res;
-        this.cropImg = res.avatar;
+        if(res.avatar){
+          this.cropImg = res.avatar;
+        }
       })
       this.param['id'] = user.id;
     },

@@ -60,7 +60,6 @@
         this.$router.push('/');
       },
       handleFullScreen(){
-        debugger
         let element = document.documentElement;
         if (this.fullscreen) {
           if (document.exitFullscreen) {

@@ -44,8 +44,9 @@ axios.interceptors.response.use(function (response) {
   let data = response.data;
   if(data.code !== 200 && data.code !== 0){
     Message.error(data.msg);
+    return;
   }
-  return data;
+  return Promise.resolve(data);
 }, function (error) {
   Message.error('服务器繁忙,请稍后重试');
   return Promise.reject(error);

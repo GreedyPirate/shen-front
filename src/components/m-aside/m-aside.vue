@@ -25,7 +25,9 @@
 </template>
 <script type="text/ecmascript-6">
   import ElMenu from "../../../node_modules/element-ui/packages/menu/src/menu.vue";
-  import {loadSideMenu} from 'api/invokeInterface'
+  import {getMenu,loadSideMenu} from 'api/invokeInterface'
+  import store from 'store'
+  import Qs from 'qs'
 
   export default {
     components: {
@@ -37,11 +39,32 @@
       }
     },
     created(){
-      loadSideMenu().then((res) => {
-        this.menu = res;
+      let userId = store.get('user').id;
+      getMenu(Qs.stringify({id:userId})).then((res) => {
+        this.noNull(res);
+        //只保留parent_id == 0的，查多了
+        this.menu = res.filter((item) => {
+          return item.parentId === 0;
+        })
+        console.log(this.menu)
       })
+      /*loadSideMenu().then((res) => {
+        debugger
+        this.menu = res;
+      })*/
     },
     methods:{
+      /**
+       * subs为空必须删除
+       * @param res
+       */
+      noNull(res){
+        res.forEach((item,index) => {
+          if(item.subs.length === 0){
+            delete res[index]['subs'];
+          }
+        })
+      }
     }
   }
 </script>

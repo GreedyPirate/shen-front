@@ -99,14 +99,22 @@
         return result;
       },
       delAll(){
+        debugger
+        let arr = this.$refs.fileTables.selection.map((item)=>{
+          return item.id;
+        })
+        if(!arr.length > 0){
+          this.$message({
+            message: '请选择要删除的文件',
+            type: 'warning'
+          });
+          return;
+        }
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          let arr = this.$refs.fileTables.selection.map((item)=>{
-            return item.id;
-          })
           deleteFile(Qs.stringify({
             ids:arr
           },{ indices: false})).then((res) => {
@@ -124,6 +132,7 @@
         });
       },
       handleDelete(index, row) {
+
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

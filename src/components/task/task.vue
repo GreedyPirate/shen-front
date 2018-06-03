@@ -5,48 +5,7 @@
         <el-breadcrumb-item><i class="el-icon-setting"></i>待办理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-tabs v-model="tabValue" type="card" addable editable closable @edit="handleTabsEdit" @tab-remove="removeTab">
-      <el-tab-pane
-        label="首页"
-        name="1"
-        key="1"
-      >
-        <div ref="index">
-          <div class="handle-box">
-            <el-select v-model="select_cate" placeholder="筛选注册类型" class="handle-select mr10" size="small">
-              <el-option key="1" label="天猫" value="1"></el-option>
-              <el-option key="2" label="淘宝" value="2"></el-option>
-            </el-select>
-            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10" size="small"></el-input>
-            <el-button type="primary" size="small" icon="search" @click="handleSearch">搜索</el-button>
-          </div>
-          <el-table :data="tableData" border style="width: 100%" ref="multipleTable">
-            <el-table-column prop="type" label="注册类型" sortable min-width="150">
-            </el-table-column>
-            <el-table-column prop="name" label="企业名称" sortable min-width="180">
-            </el-table-column>
-            <el-table-column prop="addr" label="地址" sortable min-width="150">
-            </el-table-column>
-            <el-table-column prop="money" label="注册资金" sortable min-width="150">
-            </el-table-column>
-            <el-table-column prop="contact" label="联系人" sortable min-width="150">
-            </el-table-column>
-            <el-table-column prop="tel" label="电话" sortable width="150">
-            </el-table-column>
-
-            <el-table-column label="操作" min-width="180">
-              <template slot-scope="scope">
-                <el-button size="small" type="primary" @click="approve(scope.$index, scope.row)">审批</el-button>
-                <!--<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="pagination">
-            <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="tableData.length">
-            </el-pagination>
-          </div>
-        </div>
-      </el-tab-pane>
+    <el-tabs v-model="tabValue" type="card" addable editable closable @edit="handleTabsEdit">
       <el-tab-pane
         v-for="item in tabArr"
         :key="item.name"
@@ -54,7 +13,8 @@
         :name="item.name"
       >
         <span v-if="item.content">{{item.content}}</span>
-        <component :is="item.component" :id="detailId" @approve="submit" @cancel="close"></component>
+        <component :is="item.component" :id="detailId" :name="item.name"
+                   @open="openTab" @approve="submit" @cancel="close" :count="approveCount"></component>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -62,36 +22,35 @@
 <script type="text/ecmascript-6">
   import {getTask,approveForm} from 'api/invokeInterface'
   import TaskDetail from 'components/taskDetail/taskDetail'
+  import TaskIndex from 'components/taskIndex/taskIndex'
   import Qs from 'qs'
 
 
   export default {
     components: {
-      TaskDetail
+      TaskDetail,
+      TaskIndex
     },
     data() {
       return {
         select_cate: '',
         select_word: '',
-        tableData: [],
         delVisible: false,
         tabValue:'1',
         tabIndex:1,
-        tabArr:[],
-        detailId:-1
+        tabArr:[{
+          title:'首页',
+          name:'1',
+          component:'TaskIndex'
+        }],
+        detailId:-1,
+        approveCount: 0
       }
     },
     created() {
-      getTask().then((res) => {
-        this.tableData = res;
-      })
     },
     methods: {
-      handleSearch() {
-
-      },
-      removeTab(){},
-      approve(index, row) {
+      openTab(row) {
         let tabName = row.name.substr(0,4)+'..';
         let newTabName = ++this.tabIndex + '';
         this.tabArr.push({
@@ -105,26 +64,27 @@
       handleDelete(index, row) {
 
       },
-      handleCurrentChange() {
-
-      },
       submit(data){
-        debugger
         approveForm(Qs.stringify(data)).then((res) => {
-          debugger
+          if(res){
+            this.handleTabsEdit(data.name, 'remove');
+            this.approveCount++;
+          }
         })
       },
       close(){
 
       },
       handleTabsEdit(targetName, action){
-        debugger
         if (action === 'remove') {
           let tabs = this.tabArr;
           let activeName = this.tabValue;
+          //首页不可以关闭
+          if(activeName === '1'){
+            return
+          }
           if (activeName === targetName) {
             tabs.forEach((tab, index) => {
-              debugger
               if (tab.name === targetName) {
                 let nextTab = tabs[index + 1] || tabs[index - 1];
                 if (nextTab) {
