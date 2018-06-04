@@ -41,6 +41,7 @@
     created(){
       let userId = store.get('user').id;
       getMenu(Qs.stringify({id:userId})).then((res) => {
+        debugger
         this.noNull(res);
         //只保留parent_id == 0的，查多了
         this.menu = res.filter((item) => {

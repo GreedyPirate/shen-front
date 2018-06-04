@@ -122,7 +122,7 @@
           display inline-block
           width 30px
           height 30px
-          margin-right 5px
+          margin-right 10px
           background-image url("avatar.jpg")
           background-size 30px 30px
           background-repeat no-repeat

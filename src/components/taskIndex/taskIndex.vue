@@ -1,7 +1,7 @@
 <template>
   <div ref="index">
     <div class="handle-box">
-      <el-select v-model="select_cate" placeholder="筛选注册类型" class="handle-select mr10" size="small">
+      <el-select v-model="select_cate" placeholder="筛选注册类型" @change="handleChange" class="handle-select mr10" size="small">
         <el-option key="1" label="天猫" value="1"></el-option>
         <el-option key="2" label="淘宝" value="2"></el-option>
       </el-select>
@@ -65,6 +65,13 @@
         handleSearch(){},
         open(index, row) {
           this.$emit('open', row);
+        },
+        handleChange() {
+          this.tableData.forEach((item, index) => {
+            if(item.type !== this.select_cate){
+              delete this.tableData[index];
+            }
+          })
         },
         handleCurrentChange() {
 
