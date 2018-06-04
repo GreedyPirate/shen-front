@@ -40,14 +40,20 @@ router.beforeEach((to, from, next) => {
  next();
 });
 
-axios.interceptors.response.use(function (response) {
+axios.interceptors.request.use(config=> {
+  return config;
+}, err=> {
+  Message.error({message: '请求超时!'});
+  return Promise.resolve(err);
+})
+axios.interceptors.response.use(response => {
   let data = response.data;
-  if(data.code !== 200 && data.code !== 0){
+  if(data && data.code !== 200){
     Message.error(data.msg);
     return;
   }
   return Promise.resolve(data);
-}, function (error) {
+}, error => {
   Message.error('服务器繁忙,请稍后重试');
   return Promise.reject(error);
 });
