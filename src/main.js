@@ -51,6 +51,8 @@ axios.interceptors.response.use(response => {
   if(data && data.code !== 200){
     Message.error(data.msg);
     return;
+  }else if(data && data.code === 403){
+    Message.error('登录状态过期，请重新登录')
   }
   return Promise.resolve(data);
 }, error => {
