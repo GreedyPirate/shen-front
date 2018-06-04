@@ -67,11 +67,11 @@
           this.$emit('open', row);
         },
         handleChange() {
-          this.tableData.forEach((item, index) => {
-            if(item.type !== this.select_cate){
-              delete this.tableData[index];
-            }
-          })
+          // this.tableData.forEach((item, index) => {
+          //   if(item.type == this.select_cate){
+          //     delete this.tableData[index];
+          //   }
+          // })
         },
         handleCurrentChange() {
 

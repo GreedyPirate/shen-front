@@ -24,11 +24,11 @@
         <el-table-column prop="status" label="进度" sortable width="150">
         </el-table-column>
 
-        <el-table-column label="操作" min-width="180">
+        <el-table-column label="操作" min-width="200">
           <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-dropdown size="mini" @command="handleCommand">
-              <el-button type="primary" size="small">
+            <el-button class="op" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-dropdown class="op-more" size="mini" @command="handleCommand">
+              <el-button class="btn-more" type="primary" size="small">
                 下载<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
@@ -36,7 +36,7 @@
                 <el-dropdown-item command="pdf">pdf</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button class="op" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -135,5 +135,12 @@
     font-size 16px
     text-align center
 
+  @media screen and (min-width:1367px) and (max-width:1440px) 
+    .op
+      width 30%
+    .op-more
+      width 35%
+      .btn-more
+        width 100%  
 </style>
 
