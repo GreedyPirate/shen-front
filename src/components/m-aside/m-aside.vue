@@ -49,7 +49,6 @@
         console.log(this.menu)
       })
       /*loadSideMenu().then((res) => {
-        debugger
         this.menu = res;
       })*/
     },

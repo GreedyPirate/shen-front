@@ -72,11 +72,9 @@
       },
       watch:{
         count(newVal, oldVal){
-          debugger
           let times = newVal - oldVal;
           console.log(times === 1)
           if(times === 1){
-            debugger
             this.init();
           }
         }

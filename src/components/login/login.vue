@@ -128,7 +128,6 @@
           this.$refs.login.validate((valid) => {
             if(valid){
               login(Qs.stringify(this.login)).then((res) => {
-                debugger
                 store.set('user',res);
                 this.$router.push('/profile');
               })

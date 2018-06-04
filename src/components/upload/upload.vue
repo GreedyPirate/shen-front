@@ -99,7 +99,6 @@
         return result;
       },
       delAll(){
-        debugger
         let arr = this.$refs.fileTables.selection.map((item)=>{
           return item.id;
         })
