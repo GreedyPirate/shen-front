@@ -251,4 +251,6 @@
         a
           color #62a8ea
           cursor pointer
+  .el-form-item
+    width 100%
 </style>
