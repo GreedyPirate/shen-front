@@ -42,7 +42,10 @@ export default function ajaxRequest(url, data, method) {
     "method": method,
     "data":data
   }).then((res) => {
-    return Promise.resolve(res.data);
+    console.log("ajax res")
+    if(res.code === 200){
+      return Promise.resolve(res.data);
+    }
   });
 }
 

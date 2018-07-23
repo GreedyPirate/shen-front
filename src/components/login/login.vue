@@ -128,6 +128,7 @@
           this.$refs.login.validate((valid) => {
             if(valid){
               login(Qs.stringify(this.login)).then((res) => {
+                debugger
                 store.set('user',res);
                 this.$router.push('/profile');
               })
@@ -172,9 +173,9 @@
           }else{
             this.activeBtn = true;
             let param = {phoneNumber:phone};
-            sendMsg(Qs.stringify(param)).then((res) => {
+            /*sendMsg(Qs.stringify(param)).then((res) => {
               console.log(res)
-            });
+            });*/
             this.timer = setInterval(() => {
               this.btnName = this.count+'s后重发';
               this.count--;
@@ -252,5 +253,5 @@
           color #62a8ea
           cursor pointer
   .el-form-item
-    width 100%
+    width 100% !important
 </style>

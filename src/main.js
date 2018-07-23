@@ -47,11 +47,13 @@ axios.interceptors.request.use(config=> {
   return Promise.resolve(err);
 })
 axios.interceptors.response.use(response => {
+  console.log(response)
+
   let data = response.data;
   if(data && data.code !== 200){
     Message.error(data.msg);
     return;
-  }else if(data && data.code === 403){
+  }else if(data && data.code === 401){
     Message.error('登录状态过期，请重新登录')
   }
   return Promise.resolve(data);
