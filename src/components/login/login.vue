@@ -130,7 +130,7 @@
               login(Qs.stringify(this.login)).then((res) => {
                 debugger
                 store.set('user',res);
-                this.$router.push('/profile');
+                //this.$router.push('/profile');
               })
             }else{
               this.$message.error(this.$t('lang.submit'));

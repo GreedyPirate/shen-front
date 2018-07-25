@@ -42,10 +42,14 @@ export default function ajaxRequest(url, data, method) {
     "method": method,
     "data":data
   }).then((res) => {
+    debugger
     console.log("ajax res")
     if(res.code === 200){
       return Promise.resolve(res.data);
     }
+  }).catch((res) => {
+    debugger
+    return Promise.reject(res);
   });
 }
 

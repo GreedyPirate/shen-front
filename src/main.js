@@ -46,20 +46,36 @@ axios.interceptors.request.use(config=> {
   Message.error({message: '请求超时!'});
   return Promise.resolve(err);
 })
-axios.interceptors.response.use(response => {
-  console.log(response)
 
+/**
+ * axios响应拦截，先走这里
+ */
+axios.interceptors.response.use(response => {
+  debugger
   let data = response.data;
   if(data && data.code !== 200){
     Message.error(data.msg);
     return;
   }else if(data && data.code === 401){
+
     Message.error('登录状态过期，请重新登录')
   }
   return Promise.resolve(data);
 }, error => {
+  debugger
+  router.push({
+    path:'/error',
+    query:{
+      code: error.response.data.code
+    }
+  })
+  // 不要再去ajax.js了
+  return;
+  /*debugger
   Message.error('服务器繁忙,请稍后重试');
-  return Promise.reject(error);
+
+  return Promise.reject(error);*/
+
 });
 
 

@@ -4,12 +4,12 @@
       <h1 class="header">{{errorCode}}</h1>
       <div class="content">
         <p>
-          <strong>你似乎来到了没有知识存在的荒原...</strong>
+          <strong>{{getText}}</strong>
         </p>
         <p></p>
         <hr>
         <p>
-          <a>返回首页</a>
+          <a :href="indexUrl">返回首页</a>
           <span>或者</span>
           <a>返回上页</a>
         </p>
@@ -19,22 +19,31 @@
 </template>
 <script type="text/ecmascript-6">
     export default {
-      props:{
+      /*props:{
         errorCode:{
           type:Number,
           default:404
         }
-      },
+      },*/
       data() {
         return {
-          text: ''
+          text: '',
+          errorCode:0,
+          indexUrl:''
         }
+      },
+      created(){
+        this.errorCode = this.$route.query.code;
+        this.indexUrl = window.location.origin;
+        debugger
       },
       computed:{
         getText() {
           switch (this.errorCode){
+            case 401:
+              return '您没有权限访问';
             case 404:
-              return '来源链接是否正确？用户、话题或问题是否存在？';
+              return '你似乎来到了没有知识存在的荒原...';
               break;
             case 500:
               return '服务器繁忙，请稍后再试';
@@ -68,8 +77,10 @@
   }
 
   .error {
-    margin: 169px auto 0;
+    padding-top: 169px;
+    margin: auto 0;
     width: 404px;
+    background-color: #fafafa;
   }
 
   .error-wide {
